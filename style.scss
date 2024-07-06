@@ -1,0 +1,61 @@
+// Variables
+$primary-color: #00ffff;
+$secondary-color: #333;
+$background-color: #000011;
+$text-color: #fff;
+
+// Mixins
+@mixin neon-text($color: $primary-color) {
+  color: $text-color;
+  text-shadow: 
+    0 0 5px $text-color,
+    0 0 10px $text-color,
+    0 0 15px $text-color,
+    0 0 20px $color,
+    0 0 35px $color,
+    0 0 40px $color,
+    0 0 50px $color,
+    0 0 75px $color;
+}
+
+// Global styles
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: rgba($background-color, 0.7);
+  color: $text-color;
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
+}
+
+// Navigation styles
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba($background-color, 0.8);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+// ... (rest of the CSS code)
+
+// Responsive design
+@media (max-width: 968px) {
+  // Styles for screens up to 968px wide
+}
+
+@media (max-width: 480px) {
+  // Styles for screens up to 480px wide
+}
+
+html {
+  scroll-padding-top: 80px;
+}
