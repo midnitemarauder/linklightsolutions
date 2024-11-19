@@ -79,9 +79,9 @@ export default function Contact() {
 
           <div className={`space-y-8 transform transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
             {[
-              { icon: <Mail className="h-6 w-6 text-blue-600 mt-1" />, title: "Email Us", content: "contact@linklightsolutions.com" },
-              { icon: <Phone className="h-6 w-6 text-blue-600 mt-1" />, title: "Call Us", content: "+1 (555) 123-4567" },
-              { icon: <MapPin className="h-6 w-6 text-blue-600 mt-1" />, title: "Visit Us", content: "123 Tech Plaza\nSuite 456\nSan Francisco, CA 94105" }
+              { icon: <Mail className="h-6 w-6 text-blue-600 mt-1" />, title: "Email Us", content: "contact@linklight.solutions" },
+              { icon: <Phone className="h-6 w-6 text-blue-600 mt-1" />, title: "Call Us", content: "+1 (403) 596-6368" },
+              { icon: <MapPin className="h-6 w-6 text-blue-600 mt-1" />, title: "Find Us", content: "Central Alberta, Canada" }
             ].map((item, index) => (
               <div key={index} className="flex items-start space-x-4 transform transition-all duration-300 hover:translate-x-2">
                 <div className="animate-float">{item.icon}</div>
