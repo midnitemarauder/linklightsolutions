@@ -1,5 +1,6 @@
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import Logo from './Logo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,17 +21,7 @@ export default function Navbar() {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          <div className="flex items-center group">
-            <div className="h-16 w-auto relative overflow-hidden">
-              <img 
-                src="/dist/squaredlogowname.webp" 
-                alt="Link Light Solutions" 
-                className="h-full w-auto object-contain transition-all duration-300 group-hover:scale-105"
-                style={{ filter: 'brightness(1.2) contrast(1.1)' }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 mix-blend-overlay"></div>
-            </div>
-          </div>
+          <Logo />
           
           <div className="hidden md:flex items-center space-x-1">
             {['Services', 'About', 'Solutions'].map((item) => (
