@@ -7,7 +7,7 @@ export default function Logo() {
     <div className="flex items-center group">
       <div className="h-16 w-auto relative overflow-hidden">
         <img 
-          src="/dsit/squaredlogowname.webp"
+          src="/dist/squaredlogowname.webp"
           alt="Link Light Solutions"
           className={`h-full w-auto object-contain transition-all duration-300 group-hover:scale-105 ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
