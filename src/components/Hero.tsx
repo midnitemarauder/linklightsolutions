@@ -14,7 +14,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: 'url("/dist/background.webp")',
+          backgroundImage: 'url("dist/background.webp")',
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-gray-900/95"></div>
