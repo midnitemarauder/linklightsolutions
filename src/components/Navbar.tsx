@@ -23,7 +23,7 @@ export default function Navbar() {
           <div className="flex items-center group">
             <div className="h-16 w-auto relative overflow-hidden">
               <img 
-                src="/network-logo.png" 
+                src="/dist/squaredlogowname.webp" 
                 alt="Link Light Solutions" 
                 className="h-full w-auto object-contain transition-all duration-300 group-hover:scale-105"
                 style={{ filter: 'brightness(1.2) contrast(1.1)' }}
