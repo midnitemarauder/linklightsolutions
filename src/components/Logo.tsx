@@ -8,7 +8,7 @@ export default function Logo() {
       <div className="h-16 w-48 relative overflow-hidden rounded-lg">
         {/* Main Logo */}
         <img 
-          src="/logo.png"
+          src="/squaredlogowname.webp"
           alt="Link Light Solutions"
           className={`h-full w-full object-contain transition-all duration-500 ${
             imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'

@@ -84,15 +84,15 @@ const mapOptions = {
 const createMarkerIcon = (status: 'completed' | 'ongoing', index: number) => ({
   path: "M-10,0a10,10 0 1,0 20,0a10,10 0 1,0 -20,0",
   fillColor: status === 'completed' ? '#3B82F6' : '#F59E0B',
-  fillOpacity: 0.9,
-  strokeWeight: 2,
-  strokeColor: '#ffffff',
-  scale: 1,
+  fillOpacity: status === 'completed' ? 0.4 : 0.9,
+  strokeWeight: status === 'completed' ? 1 : 2,
+  strokeColor: status === 'completed' ? 'rgba(255,255,255,0.5)' : '#ffffff',
+  scale: status === 'completed' ? 0.7 : 1,
   animation: window.google?.maps.Animation.NONE,
   className: 'map-marker',
-  style: {
+  style: status === 'ongoing' ? {
     animation: `marker-flicker 1.5s ease-in-out ${index * 0.1}s infinite, marker-glow 2s ease-in-out ${index * 0.2}s infinite`
-  }
+  } : undefined
 });
 
 const getCityFromAddress = (address: string) => {
@@ -114,11 +114,18 @@ export default function MapComponent({ installations }: MapComponentProps) {
     setSelectedMarker(installation);
   }, []);
 
+  // Sort installations to render completed markers first (underneath) and ongoing last (on top)
   const markers = useMemo(() => 
-    installations.map((installation, index) => ({
-      ...installation,
-      icon: createMarkerIcon(installation.status, index)
-    })),
+    [...installations]
+      .sort((a, b) => {
+        if (a.status === 'completed' && b.status === 'ongoing') return -1;
+        if (a.status === 'ongoing' && b.status === 'completed') return 1;
+        return 0;
+      })
+      .map((installation, index) => ({
+        ...installation,
+        icon: createMarkerIcon(installation.status, index)
+      })),
     [installations]
   );
 
@@ -155,11 +162,11 @@ export default function MapComponent({ installations }: MapComponentProps) {
             position={{ lat: installation.lat, lng: installation.lng }}
             onClick={() => onMarkerClick(installation)}
             icon={installation.icon}
-            label={{
+            label={installation.status === 'ongoing' ? {
               text: getCityFromAddress(installation.address),
               className: 'marker-label',
               color: '#ffffff',
-            }}
+            } : undefined}
           />
         ))}
 
