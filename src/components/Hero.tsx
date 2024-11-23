@@ -1,79 +1,129 @@
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Network, Shield, Server } from 'lucide-react';
-import { useEffect, useState } from 'react';
+
+const NETWORK_NODES_COUNT = 30;
+const NETWORK_LINES_COUNT = 15;
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const nodesRef = useRef<HTMLDivElement[]>([]);
+  const linesRef = useRef<HTMLDivElement[]>([]);
+  const animationRef = useRef<number>();
+
+  const createNode = useCallback(() => {
+    const x = 10 + Math.random() * 80;
+    const y = 10 + Math.random() * 80;
+    return { x, y };
+  }, []);
+
+  const createLine = useCallback(() => {
+    const angle = Math.random() * Math.PI * 2;
+    const length = 100 + Math.random() * 200;
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    return { x, y, angle, length };
+  }, []);
+
+  const updateNetwork = useCallback(() => {
+    // Update nodes with subtle movements
+    nodesRef.current.forEach((node, i) => {
+      if (!node) return;
+      const time = Date.now() * 0.001;
+      const offset = i * 0.5;
+      const x = parseFloat(node.style.left) + Math.sin(time + offset) * 0.1;
+      const y = parseFloat(node.style.top) + Math.cos(time + offset) * 0.1;
+      node.style.left = `${x}%`;
+      node.style.top = `${y}%`;
+    });
+
+    // Update lines with flowing effect
+    linesRef.current.forEach((line, i) => {
+      if (!line) return;
+      const time = Date.now() * 0.001;
+      const offset = i * 0.3;
+      const progress = ((time + offset) % 3) / 3;
+      line.style.opacity = Math.sin(progress * Math.PI).toString();
+    });
+
+    animationRef.current = requestAnimationFrame(updateNetwork);
+  }, []);
 
   useEffect(() => {
     setIsVisible(true);
-  }, []);
+
+    // Initialize nodes
+    const nodes = Array.from({ length: NETWORK_NODES_COUNT }, createNode);
+    nodesRef.current = nodes.map((pos, i) => {
+      const div = document.createElement('div');
+      div.className = 'network-node';
+      div.style.left = `${pos.x}%`;
+      div.style.top = `${pos.y}%`;
+      div.style.animationDelay = `${i * 0.1}s`;
+      containerRef.current?.appendChild(div);
+      return div;
+    });
+
+    // Initialize lines
+    const lines = Array.from({ length: NETWORK_LINES_COUNT }, createLine);
+    linesRef.current = lines.map((line, i) => {
+      const div = document.createElement('div');
+      div.className = 'network-line';
+      div.style.left = `${line.x}%`;
+      div.style.top = `${line.y}%`;
+      div.style.width = `${line.length}px`;
+      div.style.transform = `rotate(${line.angle}rad)`;
+      div.style.animationDelay = `${i * 0.2}s`;
+      containerRef.current?.appendChild(div);
+      return div;
+    });
+
+    // Start animation
+    updateNetwork();
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      nodesRef.current.forEach(node => node?.remove());
+      linesRef.current.forEach(line => line?.remove());
+    };
+  }, [createNode, createLine, updateNetwork]);
 
   return (
     <div className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Network Background Image with Overlay */}
+      {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: 'url("dist/background.webp")',
+          backgroundImage: 'url("/hero-background.webp")',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-gray-900/95"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(17,24,39,0.7),rgba(17,24,39,0.9))]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(17,24,39,0.85),rgba(17,24,39,0.95))]"></div>
       </div>
 
-      {/* Animated Grid Background */}
-      <div className="absolute inset-0 grid-background"></div>
+      {/* Grid Background */}
+      <div className="absolute inset-0 grid-background opacity-30"></div>
 
-      {/* Animated Overlay */}
-      <div className="absolute inset-0">
-        {/* Network Nodes */}
-        {Array.from({ length: 30 }).map((_, i) => (
-          <div
-            key={i}
-            className="network-node animate-pulse-glow"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              opacity: 0.7
-            }}
-          />
-        ))}
-        
-        {/* Network Lines */}
-        {Array.from({ length: 15 }).map((_, i) => (
-          <div
-            key={`line-${i}`}
-            className="absolute h-px w-40 bg-gradient-to-r from-blue-400/40 to-purple-400/40 animate-network-flow"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
-          />
-        ))}
-      </div>
+      {/* Network Animation Container */}
+      <div ref={containerRef} className="absolute inset-0 overflow-hidden" />
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 relative z-10">
         <div className={`text-center transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <div className="relative inline-block">
             <h1 className="mb-6 tracking-tight font-grotesk">
-              <span className="block text-6xl md:text-8xl font-bold text-white cyberpunk-glitch select-none" data-text="LINK LIGHT">
+              <span className="block text-6xl md:text-8xl font-bold text-white cyberpunk-glitch" data-text="LINK LIGHT">
                 LINK LIGHT
               </span>
-              <span 
-                className="block text-6xl md:text-8xl font-bold cyber-gradient select-none"
-                data-text="SOLUTIONS"
-              >
+              <span className="block text-6xl md:text-8xl font-bold cyber-gradient" data-text="SOLUTIONS">
                 SOLUTIONS
               </span>
             </h1>
             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 opacity-20 blur-2xl animate-pulse"></div>
           </div>
 
-          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto cyberpunk-text">
+          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
             Connecting your world through advanced network solutions and cutting-edge infrastructure
           </p>
           

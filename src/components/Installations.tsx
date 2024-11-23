@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Wifi } from 'lucide-react';
+import { MapPin, Wifi, CheckCircle, Clock } from 'lucide-react';
 import MapComponent from './MapComponent';
+import { useInstallations } from '../hooks/useInstallations';
 
 export default function Installations() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const { installations, loading, error } = useInstallations();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,29 +34,45 @@ export default function Installations() {
             <h2 className="text-3xl font-bold text-white">Our Installations</h2>
           </div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Explore our network of successful installations across the country
+            Serving hospitality networks across the Americas and beyond with excellence
           </p>
-        </div>
-
-        <div className="relative">
-          <MapComponent />
-
-          <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md p-6 rounded-lg shadow-xl border border-white/20">
-            <div className="flex items-center space-x-4">
-              <Wifi className="h-6 w-6 text-blue-400" />
-              <div>
-                <p className="text-2xl font-bold text-white">3</p>
-                <p className="text-sm text-gray-300">Active Installations</p>
-              </div>
+          {error && (
+            <div className="mt-4 text-amber-400 text-sm bg-amber-400/10 rounded-lg py-2 px-4 inline-block">
+              Note: {error}
             </div>
-          </div>
+          )}
         </div>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mb-12">
+          {loading ? (
+            <div className="flex items-center justify-center h-[600px] bg-gray-900/50 rounded-xl">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            </div>
+          ) : (
+            <MapComponent installations={installations} />
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { icon: MapPin, title: "Custom Solutions", desc: "Tailored network installations" },
-            { icon: Wifi, title: "Coverage", desc: "Optimized wireless coverage" },
-            { icon: MapPin, title: "Support", desc: "24/7 maintenance and support" }
+            { 
+              icon: CheckCircle, 
+              title: "Recently Completed Projects", 
+              desc: "Successfully deployed network solutions",
+              count: installations.filter(i => i.status === 'completed').length
+            },
+            { 
+              icon: Clock, 
+              title: "Ongoing Projects", 
+              desc: "Current installations in progress",
+              count: installations.filter(i => i.status === 'ongoing').length
+            },
+            { 
+              icon: Wifi, 
+              title: "Global Reach", 
+              desc: "Serving hospitality networks across the Americas",
+              count: `${installations.length}+`
+            }
           ].map((item, index) => (
             <div 
               key={index}
@@ -62,6 +80,7 @@ export default function Installations() {
             >
               <item.icon className="h-6 w-6 text-blue-400 mb-2" />
               <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+              <p className="text-2xl font-bold text-blue-400 my-2">{item.count}</p>
               <p className="text-gray-400">{item.desc}</p>
             </div>
           ))}

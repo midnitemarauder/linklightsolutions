@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
-import LinkedInFeed from './components/LinkedInFeed';
+import About from './components/About';
 import Contact from './components/Contact';
 import Installations from './components/Installations';
 
@@ -11,8 +11,8 @@ function App() {
       <Navbar />
       <Hero />
       <Services />
+      <About />
       <Installations />
-      <LinkedInFeed />
       <Contact />
       
       <footer className="bg-gray-900 text-white py-8">
