@@ -5,15 +5,16 @@ export default function Logo() {
 
   return (
     <div className="flex items-center group">
-      <div className="h-16 w-48 relative overflow-hidden rounded-lg">
+      <div className="h-16 w-48 relative overflow-hidden">
         {/* Main Logo */}
         <img 
-          src="/squaredlogowname.webp"
+          src="/public/squaredlogowname.webp"
           alt="Link Light Solutions"
           className={`h-full w-full object-contain transition-all duration-500 ${
             imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}
           onLoad={() => setImageLoaded(true)}
+          style={{ filter: 'brightness(1.2) contrast(1.1)' }}
         />
         
         {/* Glowing effect */}
