@@ -96,7 +96,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: 'url("/hero-background.webp")',
+          backgroundImage: 'url("/background.webp")',
         }}
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(17,24,39,0.85),rgba(17,24,39,0.95))]"></div>
