@@ -10,12 +10,23 @@ export const initEmailJS = () => {
   if (!EMAIL_CONFIG.publicKey) {
     throw new Error('EmailJS public key is missing');
   }
+  
+  // Validate environment variables
+  if (!EMAIL_CONFIG.serviceId || !EMAIL_CONFIG.templateId) {
+    throw new Error('Missing required EmailJS configuration');
+  }
+
   emailjs.init(EMAIL_CONFIG.publicKey);
 };
 
 export const sendEmail = async (form: HTMLFormElement) => {
-  if (!EMAIL_CONFIG.serviceId || !EMAIL_CONFIG.templateId) {
-    throw new Error('EmailJS configuration is missing');
+  // Additional validation before sending
+  const requiredFields = ['from_name', 'from_email', 'message'];
+  for (const field of requiredFields) {
+    const element = form.elements.namedItem(field) as HTMLInputElement | HTMLTextAreaElement;
+    if (!element?.value?.trim()) {
+      throw new Error(`${field.replace('_', ' ')} is required`);
+    }
   }
 
   try {

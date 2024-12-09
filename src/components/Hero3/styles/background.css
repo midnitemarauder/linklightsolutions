@@ -1,0 +1,32 @@
+@keyframes grid-fade {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.6; }
+  100% { opacity: 0.4; }
+}
+
+@keyframes grid-pulse {
+  0%, 100% { 
+    filter: brightness(1) blur(0px);
+  }
+  50% { 
+    filter: brightness(1.2) blur(0.5px);
+  }
+}
+
+.grid-background {
+  position: relative;
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.2) 1px, transparent 1px);
+  background-position: center center;
+  animation: grid-fade 4s ease-in-out infinite;
+}
+
+.grid-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(59, 130, 246, 0.1) 100%);
+  animation: grid-pulse 4s ease-in-out infinite;
+}

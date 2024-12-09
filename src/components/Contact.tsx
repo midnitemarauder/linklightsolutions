@@ -122,44 +122,8 @@ export default function Contact() {
     }
   };
 
-  const renderFormField = (
-    id: keyof FormData,
-    label: string,
-    type: 'text' | 'email' | 'textarea',
-    placeholder: string
-  ) => (
-    <div className="transform transition-all duration-300 hover:translate-y-[-2px]">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
-        {label}
-      </label>
-      {type === 'textarea' ? (
-        <textarea
-          id={id}
-          name={`from_${id}`}
-          value={formData[id]}
-          onChange={handleChange}
-          required
-          rows={4}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-300 hover:shadow-md"
-          placeholder={placeholder}
-        />
-      ) : (
-        <input
-          type={type}
-          id={id}
-          name={`from_${id}`}
-          value={formData[id]}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-300 hover:shadow-md"
-          placeholder={placeholder}
-        />
-      )}
-    </div>
-  );
-
   return (
-    <section id="contact" className="py-20 bg-white" ref={sectionRef}>
+    <section id="contact" className="py-20 bg-white scroll-mt-20" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -175,9 +139,50 @@ export default function Contact() {
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
           }`}>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-              {renderFormField('name', 'Name', 'text', 'Your name')}
-              {renderFormField('email', 'Email', 'email', 'your@email.com')}
-              {renderFormField('message', 'Message', 'textarea', 'How can we help?')}
+              <div className="transform transition-all duration-300 hover:translate-y-[-2px]">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="from_name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-300 hover:shadow-md"
+                />
+              </div>
+
+              <div className="transform transition-all duration-300 hover:translate-y-[-2px]">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="from_email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-300 hover:shadow-md"
+                />
+              </div>
+
+              <div className="transform transition-all duration-300 hover:translate-y-[-2px]">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow duration-300 hover:shadow-md"
+                />
+              </div>
 
               {status.message && (
                 <div className={`p-4 rounded-lg ${

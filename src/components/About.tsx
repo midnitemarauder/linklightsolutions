@@ -61,22 +61,36 @@ export default function About() {
               Transforming Network Infrastructure
             </h2>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Pioneering the future of hospitality networking across the Americas and beyond with over two decades of combined expertise and innovation
+              Pioneering the future of hospitality networking with over two decades of combined expertise
             </p>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 text-center transform transition-all duration-500 hover:scale-105"
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="text-3xl font-bold text-blue-400 mb-2">{stat.value}</div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
-              </div>
-            ))}
+          {/* Image and Stats Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+            {/* Server Room Illustration */}
+            <div className="relative rounded-xl overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <img
+                src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=2000"
+                alt="Network Infrastructure"
+                className="w-full h-full object-cover rounded-xl transform transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 gap-6">
+              {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className="bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 text-center transform transition-all duration-500 hover:scale-105"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  <div className="text-3xl font-bold text-blue-400 mb-2">{stat.value}</div>
+                  <div className="text-sm text-gray-400">{stat.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Tabs Section */}

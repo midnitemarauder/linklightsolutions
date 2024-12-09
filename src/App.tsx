@@ -1,29 +1,17 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import About from './components/About';
-import Contact from './components/Contact';
-import Installations from './components/Installations';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import AuthCallback from './components/Map/AuthCallback';
+import ErrorBoundary from './components/ErrorBoundary';
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <Hero />
-      <Services />
-      <About />
-      <Installations />
-      <Contact />
-      
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p>&copy; {new Date().getFullYear()} Link Light Solutions. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/" element={<MainLayout />} />
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
-
-export default App;
