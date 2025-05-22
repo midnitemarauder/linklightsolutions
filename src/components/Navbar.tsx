@@ -1,5 +1,6 @@
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from './Logo';
 import { scrollToSection } from '../lib/scroll';
 
@@ -12,6 +13,7 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +26,11 @@ export default function Navbar() {
 
   const handleNavClick = (href: string) => {
     scrollToSection(href);
+    setIsOpen(false);
+  };
+  
+  const navigateToDashboard = () => {
+    navigate('/hr-dashboard');
     setIsOpen(false);
   };
 
@@ -54,6 +61,14 @@ export default function Navbar() {
               className="ml-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white transition-all duration-300 transform hover:scale-105 text-sm font-medium hover:shadow-lg hover:shadow-blue-500/25"
             >
               Contact Us
+            </button>
+            <button
+              onClick={navigateToDashboard}
+              className="ml-2 px-3 py-2 rounded-lg bg-gray-700 text-white transition-all duration-300 hover:bg-gray-600 flex items-center"
+              aria-label="HR Dashboard"
+            >
+              <User className="h-4 w-4 mr-1" />
+              <span className="text-xs font-medium">HR</span>
             </button>
           </div>
 
@@ -91,6 +106,13 @@ export default function Navbar() {
               className="mt-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg transition-all duration-200 text-center hover:shadow-lg hover:shadow-blue-500/25"
             >
               Contact Us
+            </button>
+            <button
+              onClick={navigateToDashboard}
+              className="mt-2 px-4 py-3 bg-gray-700 text-white rounded-lg transition-all duration-200 flex items-center justify-center hover:bg-gray-600"
+            >
+              <User className="h-4 w-4 mr-2" />
+              <span>HR Dashboard</span>
             </button>
           </div>
         </div>
